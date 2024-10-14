@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='style.css') }}"
+        />
+        <title>{{ branding_name }} Home</title>
+    </head>
+    <script>
+        var myvideo = document.getElementById("myvideo");
+        var myaudio = document.getElementById("myaudio");
+        myvideo.onplay = function () {
+            myaudio.play();
+        };
+        myvideo.onpause = function () {
+            myaudio.pause();
+        };
+    </script>
+    <body>
+        {% include 'header.html' %}
+        <video autoplay controls>
+            <source
+                id="myvideo"
+                src="{{ video['adaptiveFormats'][-1]['url'] }}"
+                type="video/mp4"
+            />
+            <audio
+                id="myaudio"
+                src="{{ video['adaptiveFormats'][0]['url'] }}"
+                type="video/m4a"
+            />
+        </video>
+        <h1>{{ video["title"] }}</h1>
+        <div class="video-info">
+            <p>Uploaded <b>{{ video["publishedText"] }}</b></p>
+            <p>•</p>
+            <p><b>{{ video["viewCount"] }}</b> views</p>
+            <p>•</p>
+            <p><b>{{ video["likeCount"] }}</b> likes</p>
+        </div>
+        <p>{{ video["description"] }}</p>
+    </body>
+</html>

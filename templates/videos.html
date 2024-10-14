@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='style.css') }}"
+        />
+        <title>{{ branding_name }} Home</title>
+    </head>
+    <body>
+        {% include 'header.html' %}
+        <div class="videos">
+            {% for video in videos %}
+            <div class="video">
+                <a href="/watch?v={{ video['videoId'] }}" class="no-link">
+                    <img
+                        class="video-thumbnail"
+                        src="https://img.youtube.com/vi/{{ video['videoId'] }}/0.jpg"
+                    />
+                    <p class="video-title">{{ video["title"][:45] }}</p>
+                    <p class="video-author">{{ video["author"] }}</p>
+                    <div class="video-info">
+                        <p class="video-views">
+                            {{ video["viewCount"] }} views
+                        </p>
+                        <p>•</p>
+                        <p class="video-published">
+                            {{ video["publishedText"] }}
+                        </p>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </body>
+</html>

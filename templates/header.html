@@ -1,0 +1,43 @@
+<div class="top-nav">
+    <h1><a class="no-link" href="/">{{ branding_name }}</a></h1>
+    <form action="/search" method="get">
+        <input
+            class="search-box"
+            id="searchBox"
+            type="text"
+            name="q"
+            placeholder="Search (Press / to focus)"
+            value="{{ query }}"
+            autocomplete="off"
+            {%
+            if
+            query
+            %}
+            value="{{ query }}"
+            {%
+            endif
+            %}
+        />
+        <button class="search-button" type="submit">Search</button>
+    </form>
+</div>
+<script>
+    document.addEventListener("keydown", function (e) {
+        if (e.key === "/") {
+            e.preventDefault();
+            document.getElementById("searchBox").focus();
+        } else if (e.key === "Escape") {
+            document.getElementById("searchBox").blur();
+        }
+    });
+
+    document.getElementById("searchBox").addEventListener("focus", function () {
+        document.getElementById("searchBox").placeholder =
+            "Search (Press Esc to unfocus)";
+    });
+
+    document.getElementById("searchBox").addEventListener("blur", function () {
+        document.getElementById("searchBox").placeholder =
+            "Search (Press / to focus)";
+    });
+</script>
