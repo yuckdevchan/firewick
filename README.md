@@ -1,0 +1,2 @@
+# firewick
+Invidious Stuff
