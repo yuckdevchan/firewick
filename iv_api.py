@@ -10,11 +10,6 @@ def get_stats(invidious_instance: str) -> dict:
 
 def get_videos(invidious_instance: str, feed: str) -> dict:
     videos = requests.get(f"{invidious_instance}/api/v1/{feed}").json()
-    for video in videos:
-        try:
-            title = video["title"]
-        except KeyError:
-            videos.remove(video)
     return videos
 
 def get_video(invidious_instance: str, video_id: str) -> dict:

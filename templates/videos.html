@@ -12,7 +12,8 @@
     <body>
         {% include 'header.html' %}
         <div class="videos">
-            {% for video in videos %}
+            {% for video in videos %} {% if video["type"] in ("video",
+            "shortVideo") %}
             <div class="video">
                 <a href="/watch?v={{ video['videoId'] }}" class="no-link">
                     <img
@@ -32,7 +33,12 @@
                     </div>
                 </a>
             </div>
-            {% endfor %}
+            {% elif video["type"] == "channel" %}
+            <img src="" />
+            <p>{{ video["author"] }}</p>
+            {% else %}
+            <p>{{ video }}</p>
+            {% endif %} {% endfor %}
         </div>
     </body>
 </html>

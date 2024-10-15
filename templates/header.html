@@ -1,25 +1,36 @@
 <div class="top-nav">
-    <h1><a class="no-link" href="/">{{ branding_name }}</a></h1>
-    <form action="/search" method="get">
-        <input
-            class="search-box"
-            id="searchBox"
-            type="text"
-            name="q"
-            placeholder="Search (Press / to focus)"
-            value="{{ query }}"
-            autocomplete="off"
-            {%
-            if
-            query
-            %}
-            value="{{ query }}"
-            {%
-            endif
-            %}
-        />
-        <button class="search-button" type="submit">Search</button>
-    </form>
+    <div class="header-section-left">
+        <h1><a class="no-link" href="/">{{ branding_name }}</a></h1>
+        <a class="no-link" href="/popular">popular</a>
+        <a class="no-link" href="/trending">trending</a>
+    </div>
+    <div class="header-section-center">
+        <form action="/search" method="get">
+            <input
+                class="search-box"
+                id="searchBox"
+                type="text"
+                name="q"
+                placeholder="Search (Press / to focus)"
+                value="{{ query }}"
+                autocomplete="off"
+                {%
+                if
+                query
+                %}
+                value="{{ query }}"
+                {%
+                endif
+                %}
+            />
+            <button class="search-button" type="submit">Search</button>
+        </form>
+    </div>
+    <div class="header-section-right">
+        <a class="no-link" href="https://github.com/yuckdevchan/firewick"
+            >by ethan</a
+        >
+    </div>
 </div>
 <script>
     document.addEventListener("keydown", function (e) {
