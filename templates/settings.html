@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='style.css') }}"
+        />
+        <script src="https://unpkg.com/htmx.org@2.0.3"></script>
+        <title>{{ branding_name }} Home</title>
+    </head>
+    <body>
+        {% include 'header.html' %}
+        <div class="settings">
+            <h1>Settings</h1>
+            <p style="font-size: 0.8em;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0-18 0m9-3h.01"/><path d="M11 12h1v4h1"/></g></svg>Hover over any setting to get a detailed description.</p>
+            <div class="setting">
+                <!-- invidious instance textbox -->
+                <label for="instance">Invidious Instance</label>
+                <input
+                    type="text"
+                    id="instance"
+                    name="Invidious Instance"
+                    value="{{ instance }}"
+                    list="suggestions"
+                    placeholder="You can use a custom one."
+                    hx-post="/api/settings/instance"
+                />
+                <datalist id="suggestions">
+                    {% for instance in instances %}
+                    {% if instance[1]["type"] in ("https", "http") and instance[1]["api"] %}
+                    <option value="{{ instance[0] }}" label="{{ instance[1]['flag'] }}{% if instance[1]["monitor"]["down"] %} Down{% else %} Online{% endif %}"{% if instance[1]["monitor"]["down"] %}disabled{% endif %} />
+                    {% endif %}
+                    {% endfor %}
+                </datalist>
+            </div>
+            <div class="setting" title="Disables abbreviated view counts, e.g. instead of 1M views, it will show 1,000,000 views.">
+                <label for="accurateViewCounts">Accurate View Counts</label>
+                <input
+                    type="checkbox"
+                    id="accurateViewCounts"
+                    name="Accurate View Counts"
+                    hx-post="/api/settings/accurateViewCounts"
+                    {% if accurate_view_counts == True %}checked{% endif %}
+                />
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='style.css') }}"
+        />
+        <script src="https://unpkg.com/htmx.org@2.0.3"></script>
+        <title>{{ branding_name }} Home</title>
+    </head>
+    <body>
+        {% include 'header.html' %}
+        <div class="error">
+            <h1>404</h1>
+            <p>Chat, the page is literally missing...</p>
+        </div>
+    </body>
+</html>

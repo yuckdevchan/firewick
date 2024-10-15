@@ -20,16 +20,23 @@
                         class="video-thumbnail"
                         src="https://img.youtube.com/vi/{{ video['videoId'] }}/0.jpg"
                     />
-                    <p class="video-title">{{ video["title"][:45] }}</p>
+                    <p class="video-title" title="{{ video['title'] }}">
+                        {{ video["title"][:45] }}
+                    </p>
                     <p class="video-author">{{ video["author"] }}</p>
                     <div class="video-info">
-                        <p class="video-views">
-                            {{ video["viewCount"] }} views
+                        <p
+                            class="video-views"
+                            title="{{ video['viewCountCommas'] }} views"
+                        >
+                            {{ video["viewCountCommas"] if accurate_view_counts else video["viewCountText"] }} views
                         </p>
+                        {% if not video["publishedText"] == "0 seconds ago" %}
                         <p>•</p>
                         <p class="video-published">
                             {{ video["publishedText"] }}
                         </p>
+                        {% endif %}
                     </div>
                 </a>
             </div>
