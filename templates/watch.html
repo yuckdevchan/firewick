@@ -11,53 +11,65 @@
         <script src="https://unpkg.com/plyr@3"></script>
         <title>{{ branding_name }} Home</title>
     </head>
+    {% if video["error"] %}
+    <body>
+        {% include 'header.html' %}
+        <div class="error">
+            <h1>{{ video["error"] }}</h1>
+            <a href="/watch?v={{ video['videoId'] }}" class="no-link">
+                <button class="try-again">Try Again</button>
+            </a>
+        </div>
+    </body>
+    {% else %}
     <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const video = document.getElementById("player");
-        const audio = document.getElementById("audio");
+        document.addEventListener("DOMContentLoaded", () => {
+            const video = document.getElementById("player");
+            const audio = document.getElementById("audio");
 
-        // Initialize Plyr
-        const player = new Plyr(video);
+            // Initialize Plyr
+            const player = new Plyr(video);
 
-        video.addEventListener("play", () => {
-          audio.play();
+            video.addEventListener("play", () => {
+                audio.play();
+            });
+
+            video.addEventListener("pause", () => {
+                audio.pause();
+            });
+
+            video.addEventListener("seeking", () => {
+                audio.currentTime = video.currentTime;
+            });
+
+            video.addEventListener("seeked", () => {
+                audio.currentTime = video.currentTime;
+            });
+
+            setInterval(() => {
+                if (Math.abs(video.currentTime - audio.currentTime) > 0.1) {
+                    audio.currentTime = video.currentTime;
+                }
+            }, 250);
+
+            video.addEventListener("click", () => {
+                setTimeout(() => {
+                    if (!video.paused) {
+                        video.playbackRate = 2;
+                    }
+                }, 1000);
+            });
         });
-
-        video.addEventListener("pause", () => {
-          audio.pause();
-        });
-
-        video.addEventListener("seeking", () => {
-          audio.currentTime = video.currentTime;
-        });
-
-        video.addEventListener("seeked", () => {
-          audio.currentTime = video.currentTime;
-        });
-
-        setInterval(() => {
-          if (Math.abs(video.currentTime - audio.currentTime) > 0.1) {
-            audio.currentTime = video.currentTime;
-          }
-        }, 250);
-
-        video.addEventListener("click", () => {
-          setTimeout(() => {
-            if (!video.paused) {
-              video.playbackRate = 2;
-            }
-          }, 1000);
-        });
-      });
     </script>
     <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const videoDescription = document.getElementById("videoDescription");
-        videoDescription.innerHTML = videoDescription.innerHTML.replace(
-            /https?:\/\/[^\s<]+/g,
-            (url) => `<a href="${url}">${url}</a>`
-        );
-    });
+        document.addEventListener("DOMContentLoaded", () => {
+            const videoDescription =
+                document.getElementById("videoDescription");
+            videoDescription.innerHTML = videoDescription.innerHTML.replace(
+                /https?:\/\/[^\s<]+/g,
+                (url) => `<a href="${url}">${url}</a>`,
+            );
+        });
     </script>
     <body>
         {% include 'header.html' %}
@@ -76,19 +88,27 @@
                 </video>
             </div>
             <div class="under-video-box">
-                <h1>{{ video["title"] }}</h1>
                 <div class="video-info">
-                    <p>Uploaded <b>{{ video["publishedText"] }}</b></p>
-                    <p>•</p>
-                    <p><b>{{ video["viewCount"] }}</b> views</p>
-                    <p>•</p>
-                    <p><b>{{ video["likeCount"] }}</b> likes</p>
+                    <h1>{{ video["title"] }}</h1>
+                    <p><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1za4 4 0 0 0 4-4V6a2 2 0 0 1 4 0v5h3a2 2 0 0 1 2 2l-1 5a2 3 0 0 1-2 2h-7a3 3 0 0 1-3-3"/></svg><b>{{ video["likeCountCommas"] }}</b> likes</p>
                 </div>
-                <p style="font-weight: bold;">Description</p>
+                <a class="no-link" href="{{ video['authorURL'] }}">
+                <div class="channel-info-box">
+                    <img class="channel-logo" src="{{ video['authorThumbnails'][1]['url'] }}">
+                    <p class="channel-name">{{ video["author"] }} • {{ video["subCountText"] }} subscribers</p>
+                </div>
+                </a>
                 <div class="video-description-box">
-                    <p id="videoDescription" class="video-description">{{ video["description"]|replace("\n", "<br>")|safe }}</p>
+                    <div class="video-description-box-header">
+                        <p><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0-4 0"/><path d="M21 12q-3.6 6-9 6t-9-6q3.6-6 9-6t9 6"/></g></svg>{{ video["viewCountCommas"] }}</b> views</p>
+                        <p title="Published at {{ video['published'] }}, Unix Epoch Time"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M11.795 21H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"/><path d="M14 18a4 4 0 1 0 8 0a4 4 0 1 0-8 0m1-15v4M7 3v4m-4 4h16"/><path d="M18 16.496V18l1 1"/></g></svg>{{ video["publishedText"] }}</p>
+                    </div>
+                    <p id="videoDescription" class="video-description">
+                        {{ video["description"]|replace("\n", "<br />")|safe }}
+                    </p>
                 </div>
             </div>
         </div>
     </body>
+    {% endif %}
 </html>

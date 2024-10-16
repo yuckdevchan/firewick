@@ -64,12 +64,17 @@
     });
 
     document.getElementById("searchBox").addEventListener("focus", function () {
-        document.getElementById("searchBox").placeholder =
-            "Search (Press Esc to unfocus)";
+        // only if screen is less than 60em
+        if (window.matchMedia("(max-width: 60em)").matches) {
+            document.getElementById("searchBox").placeholder =
+                "Search (Press Esc to unfocus)";
+        }
     });
 
     document.getElementById("searchBox").addEventListener("blur", function () {
-        document.getElementById("searchBox").placeholder =
-            "Search (Press / to focus)";
+        if (window.matchMedia("(max-width: 60em)").matches) {
+            document.getElementById("searchBox").placeholder =
+                "Search (Press / to focus)";
+        }
     });
 </script>

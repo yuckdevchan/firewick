@@ -61,7 +61,15 @@ p {
     transform: translateX(-50%);
 }
 
-@media (max-width: 1261px) {
+@media (max-width: 60em) {
+    .search-box {
+        height: 2.5em;
+    }
+
+    .search-button {
+        height: 3.5em;
+    }
+
     .header-section-center {
         position: relative !important;
         top: 0 !important;
@@ -146,11 +154,13 @@ p {
     max-width: 100%;
     background-color: transparent;
     color: var(--contrasting-text-color);
+    transition: border-color 0.175s;
 }
 
 .search-box:focus {
     outline: none;
     border-color: var(--accent-color);
+    transition: border-color 0.175s;
 }
 
 .search-button {
@@ -209,11 +219,11 @@ p {
 
 .video-column {
     margin-left: 3em;
+    width: 60em;
+    max-width: 100%;
 }
 
 .video-container {
-    width: 100em;
-    max-width: 100%;
     overflow: hidden;
     border-radius: 1em;
     margin-bottom: 0.75em;
@@ -221,10 +231,12 @@ p {
 
 .video-info {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.5em;
-    font-size: 0.9em;
-    margin-bottom: 1em;
+    gap: 0.35em;
+    margin-bottom: 0.5em;
+}
+
+.video-column .video-info {
+    justify-content: space-between;
 }
 
 .settings {
@@ -261,4 +273,24 @@ p {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+}
+
+.channel-info-box {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5em;
+}
+
+.channel-info-box .channel-logo {
+    width: 2.75em;
+    height: 2.75em;
+    border-radius: 100%;
+    border: 0.1em solid var(--accent-color);
+}
+
+.video-description-box-header {
+    display: flex;
+    gap: 0.5em;
+    font-weight: bold;
 }

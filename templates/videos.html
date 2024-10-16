@@ -21,15 +21,12 @@
                         src="https://img.youtube.com/vi/{{ video['videoId'] }}/0.jpg"
                     />
                     <p class="video-title" title="{{ video['title'] }}">
-                        {{ video["title"][:45] }}
+                        {{ video["title"][:47] }}{% if video["title"]|length > 47 %}...{% endif %}
                     </p>
                     <p class="video-author">{{ video["author"] }}</p>
                     <div class="video-info">
-                        <p
-                            class="video-views"
-                            title="{{ video['viewCountCommas'] }} views"
-                        >
-                            {{ video["viewCountCommas"] if accurate_view_counts else video["viewCountText"] }} views
+                        <p class="video-views" title="{{ video['viewCountCommas'] }} views">
+                            {{ video["viewCountCommas"] if accurate_view_counts else video["viewCountText"] }} view{% if video["viewCount"]|int != 1 %}s{% endif %}
                         </p>
                         {% if not video["publishedText"] == "0 seconds ago" %}
                         <p>•</p>
