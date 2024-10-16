@@ -36,6 +36,8 @@ def trending():
 @app.route("/search")
 def search():
     query = request.args.get("q")
+    if query in (None, ""):
+        return index()
     search_results = iv_api.get_videos(iv_instance, f"search?q={query}")
     return render_template("videos.html", branding_name=branding["name"], videos=search_results, query=query, accurate_view_counts=session.get("accurate_view_counts"))
 
@@ -47,7 +49,7 @@ def watch():
 
 @app.route("/settings")
 def settings():
-    return render_template("settings.html", branding_name=branding["name"], settings=settings, instances=iv_api.get_instances(), accurate_view_counts=session.get("accurate_view_counts"))
+    return render_template("settings.html", branding_name=branding["name"], settings=settings, instances=iv_api.get_instances(), accurate_view_counts=session.get("accurate_view_counts"), instance=session.get("instance"))
 
 @app.route("/stats")
 def stats():
@@ -55,10 +57,16 @@ def stats():
     return render_template("stats.html", branding_name=branding["name"], stats=stats)
 
 @app.route("/api/settings/accurateViewCounts", methods=["POST"])
-def api_accurate_view_counts():
+def api_settings_accurate_view_counts():
     value = True if request.form.get("Accurate View Counts") == "on" else False
     print(value)
     session["accurate_view_counts"] = value
+    return "true"
+
+@app.route("/api/settings/instance", methods=["POST"])
+def api_settings_instance():
+    instance = request.form.get("Invidious Instance")
+    session["instance"] = instance
     return "true"
 
 if __name__ == "__main__":

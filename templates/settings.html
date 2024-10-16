@@ -10,6 +10,15 @@
         <script src="https://unpkg.com/htmx.org@2.0.3"></script>
         <title>{{ branding_name }} Home</title>
     </head>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+          document.getElementById("instance").addEventListener("input", function() {
+              if (this.value === "") {
+                  this.value = "{{ instances[0][0] }}";
+              }
+          });
+      });
+    </script>
     <body>
         {% include 'header.html' %}
         <div class="settings">
@@ -22,7 +31,7 @@
                     type="text"
                     id="instance"
                     name="Invidious Instance"
-                    value="{{ instance }}"
+                    value="{% if instance == None %}{{ instances[0][0] }}{% else %}{{ instance }}{% endif %}"
                     list="suggestions"
                     placeholder="You can use a custom one."
                     hx-post="/api/settings/instance"
