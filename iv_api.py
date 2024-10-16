@@ -15,11 +15,18 @@ def get_stats(invidious_instance: str) -> dict:
 def get_videos(invidious_instance: str, feed: str) -> dict:
     videos = requests.get(f"{invidious_instance}/api/v1/{feed}").json()
     for video in videos:
-        video["viewCountCommas"] = humanize.intcomma(video["viewCount"])
-        video["viewCountText"] = humanize.intword(video["viewCount"]).replace(" thousand", "K").replace(" million", "M").replace(" billion", "B").replace(" trillion", "T")
+        try:
+            video["viewCountCommas"] = humanize.intcomma(video["viewCount"])
+            video["viewCountText"] = humanize.intword(video["viewCount"]).replace(" thousand", "K").replace(" million", "M").replace(" billion", "B").replace(" trillion", "T")
+        except KeyError:
+            pass
     return videos
 
 def get_video(invidious_instance: str, video_id: str) -> dict:
-    video = requests.get(f"{invidious_instance}/api/v1/videos/{video_id}", headers=headers).json()
-    video["viewCountCommas"] = humanize.intcomma(video["viewCount"])
+    try:
+        video = requests.get(f"{invidious_instance}/api/v1/videos/{video_id}", headers=headers).json()
+        video["viewCountCommas"] = humanize.intcomma(video["viewCount"])
+        video["likeCountCommas"] = humanize.intcomma(video["likeCount"])
+    except:
+        return {"error": "Video not found or unsupported type / feature."}
     return video
