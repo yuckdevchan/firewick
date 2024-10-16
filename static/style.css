@@ -154,13 +154,13 @@ p {
     max-width: 100%;
     background-color: transparent;
     color: var(--contrasting-text-color);
-    transition: border-color 0.175s;
+    transition: border-color 0.1s;
 }
 
 .search-box:focus {
     outline: none;
     border-color: var(--accent-color);
-    transition: border-color 0.175s;
+    transition: border-color 0.1s;
 }
 
 .search-button {
@@ -193,6 +193,10 @@ p {
 .no-link {
     color: inherit;
     text-decoration: none;
+}
+
+.some-link {
+    color: var(--accent-color);
 }
 
 .videos,
@@ -286,11 +290,21 @@ p {
     width: 2.75em;
     height: 2.75em;
     border-radius: 100%;
-    border: 0.1em solid var(--accent-color);
 }
 
 .video-description-box-header {
     display: flex;
     gap: 0.5em;
+    font-weight: bold;
+}
+
+.video-interactions {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.watch-video-title {
+    font-size: 1.5em;
     font-weight: bold;
 }

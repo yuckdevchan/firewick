@@ -11,20 +11,20 @@
         <title>{{ branding_name }} Home</title>
     </head>
     <script>
-      document.addEventListener("DOMContentLoaded", function() {
-          document.getElementById("instance").addEventListener("input", function() {
-              if (this.value === "") {
-                  this.value = "{{ instances[0][0] }}";
-              }
-          });
-      });
+      // document.addEventListener("DOMContentLoaded", function() {
+      //     document.getElementById("instance").addEventListener("input", function() {
+      //         if (this.value === "") {
+      //             this.value = "{{ instances[0][0] }}";
+      //         }
+      //     });
+      // });
     </script>
     <body>
         {% include 'header.html' %}
         <div class="settings">
             <h1>Settings</h1>
             <p style="font-size: 0.8em;"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0-18 0m9-3h.01"/><path d="M11 12h1v4h1"/></g></svg>Hover over any setting to get a detailed description.</p>
-            <div class="setting">
+            <div class="setting" title="Choose an Invidious instance to use to get all the data. The list below is an automatically updated list of Invidious instances from the Invidious Official Instances list. If the instance is down, it will also display here.">
                 <!-- invidious instance textbox -->
                 <label for="instance">Invidious Instance</label>
                 <input
@@ -52,6 +52,16 @@
                     name="Accurate View Counts"
                     hx-post="/api/settings/accurateViewCounts"
                     {% if accurate_view_counts == True %}checked{% endif %}
+                />
+            </div>
+            <div class="setting" title="Adds dislikes to videos using data from Return Youtube Dislike.">
+                <label for="showDislikes">Show Dislikes (<a href="https://returnyoutubedislike.com/" class="some-link">Return YouTube Dislike</a>)</label>
+                <input
+                    type="checkbox"
+                    id="showDislikes"
+                    name="Show Dislikes"
+                    hx-post="/api/settings/showDislikes"
+                    {% if show_dislikes == True %}checked{% endif %}
                 />
             </div>
         </div>

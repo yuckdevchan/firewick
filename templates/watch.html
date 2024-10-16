@@ -69,6 +69,15 @@
                 /https?:\/\/[^\s<]+/g,
                 (url) => `<a href="${url}">${url}</a>`,
             );
+            const dislikeCount = document.getElementById("dislikeCount");
+            const videoId = "{{ video['videoId'] }}";
+            fetch(`https://returnyoutubedislikeapi.com/votes?videoId=${videoId}`)
+                .then((res) => res.json())
+                .then((data) => {
+                  console.log(data);
+                  // comma seperated dislikes
+                  dislikeCount.innerText = data.dislikes.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                });
         });
     </script>
     <body>
@@ -89,8 +98,11 @@
             </div>
             <div class="under-video-box">
                 <div class="video-info">
-                    <h1>{{ video["title"] }}</h1>
-                    <p><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1za4 4 0 0 0 4-4V6a2 2 0 0 1 4 0v5h3a2 2 0 0 1 2 2l-1 5a2 3 0 0 1-2 2h-7a3 3 0 0 1-3-3"/></svg><b>{{ video["likeCountCommas"] }}</b> likes</p>
+                    <p class="watch-video-title">{{ video["title"] }}</p>
+                    <div class="video-interactions">
+                        <p><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1za4 4 0 0 0 4-4V6a2 2 0 0 1 4 0v5h3a2 2 0 0 1 2 2l-1 5a2 3 0 0 1-2 2h-7a3 3 0 0 1-3-3"/></svg><b>{{ video["likeCountCommas"] }}</b> likes</p>
+                        <p><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 13V5a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1za4 4 0 0 1 4 4v1a2 2 0 0 0 4 0v-5h3a2 2 0 0 0 2-2l-1-5a2 3 0 0 0-2-2h-7a3 3 0 0 0-3 3"/></svg><b id="dislikeCount"></b> dislikes</p>
+                    </div>
                 </div>
                 <a class="no-link" href="{{ video['authorURL'] }}">
                 <div class="channel-info-box">
