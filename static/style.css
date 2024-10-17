@@ -341,3 +341,17 @@ p {
     justify-content: center;
     align-items: center;
 }
+
+.comment-count {
+    font-weight: bold;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.comment {
+    margin-bottom: 2em;
+}
+
+.comment-author {
+    font-weight: bold;
+}

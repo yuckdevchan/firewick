@@ -45,7 +45,8 @@ def search():
 def watch():
     video_id = request.args.get("v")
     video = iv_api.get_video(iv_instance, video_id)
-    return render_template("watch.html", branding_name=branding["name"], video=video, accurate_view_counts=session.get("accurate_view_counts"))
+    comments = iv_api.get_comments(iv_instance, video_id)
+    return render_template("watch.html", branding_name=branding["name"], video=video, comments=comments, accurate_view_counts=session.get("accurate_view_counts"))
 
 @app.route("/settings")
 def settings():

@@ -30,3 +30,10 @@ def get_video(invidious_instance: str, video_id: str) -> dict:
     except:
         return {"error": "Video not found or unsupported type / feature."}
     return video
+
+def get_comments(invidious_instance: str, video_id: str) -> dict:
+    try:
+        comments = requests.get(f"{invidious_instance}/api/v1/comments/{video_id}", headers=headers).json()
+    except:
+        return {"error": "Comments not found or unsupported type / feature."}
+    return comments
