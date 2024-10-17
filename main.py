@@ -69,5 +69,11 @@ def api_settings_instance():
     session["instance"] = instance
     return "true"
 
+@app.route("/api/settings/showDislikes", methods=["POST"])
+def api_settings_show_dislikes():
+    value = True if request.form.get("Show Dislikes") == "on" else False
+    session["show_dislikes"] = value
+    return "true"
+
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0", port=5000)

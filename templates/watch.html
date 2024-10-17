@@ -63,12 +63,12 @@
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const videoDescription =
-                document.getElementById("videoDescription");
-            videoDescription.innerHTML = videoDescription.innerHTML.replace(
-                /https?:\/\/[^\s<]+/g,
-                (url) => `<a href="${url}">${url}</a>`,
-            );
+            // const videoDescription =
+            //     document.getElementById("videoDescription");
+            // videoDescription.innerHTML = videoDescription.innerHTML.replace(
+            //     /https?:\/\/[^\s<]+/g,
+            //     (url) => `<a href="${url}">${url}</a>`,
+            // );
             const dislikeCount = document.getElementById("dislikeCount");
             const videoId = "{{ video['videoId'] }}";
             fetch(`https://returnyoutubedislikeapi.com/votes?videoId=${videoId}`)
@@ -82,6 +82,7 @@
     </script>
     <body>
         {% include 'header.html' %}
+        <div class="watch-page-container">
         <div class="video-column">
             <div class="video-container">
                 <video autoplay controls id="player">
@@ -104,11 +105,11 @@
                         <p><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 13V5a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1za4 4 0 0 1 4 4v1a2 2 0 0 0 4 0v-5h3a2 2 0 0 0 2-2l-1-5a2 3 0 0 0-2-2h-7a3 3 0 0 0-3 3"/></svg><b id="dislikeCount"></b> dislikes</p>
                     </div>
                 </div>
-                <a class="no-link" href="{{ video['authorURL'] }}">
-                <div class="channel-info-box">
-                    <img class="channel-logo" src="{{ video['authorThumbnails'][1]['url'] }}">
-                    <p class="channel-name">{{ video["author"] }} • {{ video["subCountText"] }} subscribers</p>
-                </div>
+                <a class="no-link" href='{{ video["authorUrl"] }}'>
+                    <div class="channel-info-box">
+                        <img class="channel-logo" src="{{ video['authorThumbnails'][1]['url'] }}">
+                        <p class="channel-name">{{ video["author"] }} • {{ video["subCountText"] }} subscribers</p>
+                    </div>
                 </a>
                 <div class="video-description-box">
                     <div class="video-description-box-header">
@@ -120,6 +121,28 @@
                     </p>
                 </div>
             </div>
+        </div>
+        <div class="recommended-videos">
+        <p class="recommended-videos-header" style="font-weight: bold;">Recommended</p>
+        {% for recommended_video in video['recommendedVideos'] %}
+        <div class="video">
+            <a href="/watch?v={{ recommended_video['videoId'] }}" class="no-link">
+                <img
+                    class="video-thumbnail"
+                    src="https://img.youtube.com/vi/{{ recommended_video['videoId'] }}/0.jpg"
+                />
+                <p class="video-title" title="{{ recommended_video['title'] }}">
+                    {{ recommended_video["title"][:47] }}{% if recommended_video["title"]|length > 47 %}...{% endif %}
+                </p>
+                <p class="video-author">{{ recommended_video["author"] }}</p>
+                <div class="video-info">
+                    <p class="video-views" title="{{ recommended_video['viewCountCommas'] }} views">
+                    </p>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+        </div>
         </div>
     </body>
     {% endif %}
